@@ -178,7 +178,6 @@
 // export default SellerLogin
 
 
-
 "use client"
 
 import { useState, useEffect } from "react"
@@ -188,63 +187,62 @@ import { toast } from "react-toastify"
 import { useAuth } from "../context/AuthContext"
 
 const SellerLogin = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [rememberMe, setRememberMe] = useState(false)
-  const navigate = useNavigate()
-  const { login, isAuthenticated } = useAuth()
+const [email, setEmail] = useState("")
+const [password, setPassword] = useState("")
+const [showPassword, setShowPassword] = useState(false)
+const [loading, setLoading] = useState(false)
+const [rememberMe, setRememberMe] = useState(false)
+const navigate = useNavigate()
+const { login, isAuthenticated } = useAuth()
 
-  // Redirect if already logged in
-  useEffect(() => {
-    if (isAuthenticated()) {
+// Redirect if already logged in
+useEffect(() => {
+  if (isAuthenticated()) {
+    navigate("/seller/dashboard")
+  }
+}, [isAuthenticated, navigate])
+
+const handleSubmit = async (e) => {
+  e.preventDefault()
+
+  if (!email.trim() || !password.trim()) {
+    toast.error("Please enter both email and password")
+    return
+  }
+
+  setLoading(true)
+
+  try {
+    // For demo purposes - any email with a password will work
+    // In production, this would be an actual API call
+    setTimeout(() => {
+      const userData = {
+        id: "seller-123",
+        name: "Restaurant Owner",
+        email: email,
+        role: "seller",
+        restaurantId: "rest-456",
+        restaurantName: "Tasty Bites Restaurant",
+        profileImage: "/placeholder.svg?height=200&width=200",
+      }
+
+      const token = "demo-token-xyz"
+
+      login(userData, token)
+      toast.success("Login successful! Welcome to your dashboard.")
       navigate("/seller/dashboard")
-    }
-  }, [isAuthenticated, navigate])
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-
-    if (!email.trim() || !password.trim()) {
-      toast.error("Please enter both email and password")
-      return
-    }
-
-    setLoading(true)
-
-    try {
-      // For demo purposes - any email with a password will work
-      // In production, this would be an actual API call
-      setTimeout(() => {
-        const userData = {
-          id: "seller-123",
-          name: "Restaurant Owner",
-          email: email,
-          role: "seller",
-          restaurantId: "rest-456",
-          restaurantName: "Tasty Bites Restaurant",
-          profileImage: "/placeholder.svg?height=200&width=200",
-        }
-
-        const token = "demo-token-xyz"
-
-        login(userData, token)
-        toast.success("Login successful! Welcome to your dashboard.")
-        navigate("/seller/dashboard")
-        setLoading(false)
-      }, 1000)
-    } catch (error) {
-      toast.error("Login failed. Please check your credentials.")
       setLoading(false)
-    }
+    }, 1000)
+  } catch (error) {
+    toast.error("Login failed. Please check your credentials.")
+    setLoading(false)
   }
+}
 
-  const handleDemoLogin = () => {
-    setEmail("demo@restaurant.com")
-    setPassword("password123")
-  }
-
+const handleDemoLogin = () => {
+  setEmail("demo@restaurant.com")
+  setPassword("password123")
+}
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-green-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-xl">

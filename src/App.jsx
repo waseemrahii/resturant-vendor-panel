@@ -83,6 +83,7 @@ function App() {
 
         {/* Seller Routes */}
         <Route path="/" element={<SellerLayout />}>
+        
           <Route index element={<SellerDashboard />} />
           <Route path="seller/dashboard" element={<SellerDashboard />} />
           <Route path="foods" element={<Foods />} />
@@ -103,7 +104,9 @@ function App() {
         </Route>
 
         {/* Redirect root to seller dashboard */}
-        <Route path="/" element={<Navigate to="/seller/dashboard" replace />} />
+        {/* <Route path="/" element={<Navigate to="/seller/dashboard" replace />} /> */}
+       {/* Root path redirects to seller login */}
+       <Route path="/" element={<Navigate to="/seller/login" replace />} />
 
         {/* 404 Page */}
         <Route path="*" element={<Page404 />} />
